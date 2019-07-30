@@ -11,12 +11,16 @@ class PrimeMinerTest extends FlatSpec with Matchers {
 
     PrimeMiner.primeStream().takeWhile(_ < 100).toList should be(primesUntil100)
     PrimeMiner.getPrimes(100) should be(primesUntil100)
+    PrimeMinter.getPrimeIterative(100) should be(primesUntil100)
   }
 
   it should "benchmark" in {
     println("Timing to generate all primes up to 1 million:")
-    val streamAvg = (1 to 10).map(_ => timed(PrimeMiner.getPrimes(1000000))).sum / 10
-    println("took " + streamAvg + " ms on average over 10 runs.")
+    val streamAvg = (1 to 20).map(_ => timed(PrimeMiner.getPrimes(1000000))).sum / 20
+    println("took " + streamAvg + " ms on average over 20 runs.")
+    println("Timing iterative prime calculator for primes up to 1 million:")
+    val iterativeAvg = (1 to 20).map(_ => timed(PrimeMinter.getPrimeIterative(1000000))).sum / 20
+    println("Iterative took " + iterativeAvg + " ms on average over 20 runs.")
   }
 
   private def timed(function: => Unit): Long = {
